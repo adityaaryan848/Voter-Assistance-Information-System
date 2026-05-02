@@ -1,0 +1,17 @@
+# Ignore Google Cloud SDK and Python installer artifacts
+google-cloud-sdk/
+gcloud.zip
+python.exe
+
+# Ignore Git
+.git/
+.gitignore
+.dockerignore
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore Docker/Cloud config
+Dockerfile
+README.md

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VAISHALI: Voter Assistance & Information System</title>
+    <meta name="description" content="An interactive AI assistant to help you understand the Indian election process, check eligibility, and guide you step-by-step.">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <i data-lucide="vote"></i>
+            <span>VAISHALI</span>
+        </div>
+        <div class="nav-links">
+            <button class="nav-btn active" data-target="dashboard">Dashboard</button>
+            <button class="nav-btn" data-target="history">History</button>
+            <button class="nav-btn" data-target="faq">FAQ</button>
+            <button class="nav-btn" data-target="flashcards">Flashcards</button>
+            <button class="nav-btn" data-target="assistant">AI Assistant</button>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="app-container">
+        <!-- Onboarding / Goal Selection (Shown initially if no role is set) -->
+        <section id="onboarding" class="view-section active">
+            <div class="hero">
+                <h1 style="font-size: 4rem;">VAISHALI</h1>
+                <p style="font-size: 1.5rem; color: var(--primary); font-weight: bold; margin-bottom: 1rem;">Voter Assistance & Information System</p>
+                <p>Welcome to your personal guide for the Indian Election Process. What would you like to achieve today?</p>
+            </div>
+            
+            <div class="goal-grid" style="margin-bottom: 3rem;">
+                <button class="goal-card" onclick="app.setRole('first_time')">
+                    <div class="icon-wrapper saffron"><i data-lucide="user-plus"></i></div>
+                    <h3>Register to Vote</h3>
+                    <p>I am a new voter looking to get my Voter ID.</p>
+                </button>
+                <button class="goal-card" onclick="app.setRole('existing')">
+                    <div class="icon-wrapper blue"><i data-lucide="check-circle-2"></i></div>
+                    <h3>I am a Voter</h3>
+                    <p>Find my polling booth, check details, or fix issues.</p>
+                </button>
+                <button class="goal-card" onclick="app.setRole('candidate')">
+                    <div class="icon-wrapper green"><i data-lucide="briefcase"></i></div>
+                    <h3>Become a Candidate</h3>
+                    <p>Learn the process of contesting elections.</p>
+                </button>
+                <button class="goal-card" onclick="app.navigate('assistant')">
+                    <div class="icon-wrapper purple"><i data-lucide="help-circle"></i></div>
+                    <h3>Ask a Question</h3>
+                    <p>I have a specific query about elections.</p>
+                </button>
+            </div>
+
+            <!-- Why Vaishali Section -->
+            <div class="glass-card" style="text-align: left; max-width: 800px; margin-left: auto; margin-right: auto; border-top: 4px solid var(--accent);">
+                <h3 style="color: var(--secondary); margin-bottom: 1rem; font-size: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i data-lucide="info"></i> Why "Vaishali"?
+                </h3>
+                <p style="color: var(--text-main); font-size: 1.1rem; line-height: 1.6; margin-bottom: 1rem;">
+                    <strong>Vaishali</strong>, an ancient city in present-day Bihar, is celebrated as one of the world's first republics (<em>Ganatantra</em>). Dating back to the 6th century BCE, the Licchavi Republic featured an elected assembly, predating many modern democratic constitutions.
+                </p>
+                <p style="color: var(--text-main); font-size: 1.1rem; line-height: 1.6;">
+                    <strong>Our Motivation:</strong> Standing for <strong>Voter Assistance & Information System</strong>, we chose this acronym to bridge India's ancient legacy of self-governance with modern civic duty, empowering you to navigate today's electoral process with ease and clarity.
+                </p>
+            </div>
+        </section>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="view-section">
+            <div class="dashboard-header">
+                <h2>Your Journey</h2>
+                <div class="progress-container">
+                    <div class="progress-bar" id="journey-progress"></div>
+                </div>
+                <p id="progress-text">Step 1 of 4 completed</p>
+            </div>
+
+            <div class="dashboard-content">
+                <div class="main-column">
+                    <div class="glass-card next-step-card">
+                        <h3><i data-lucide="arrow-right-circle"></i> Next Step</h3>
+                        <h4 id="next-step-title">Verify your Age & Citizenship</h4>
+                        <p id="next-step-desc">Before applying for a Voter ID (Form 6), ensure you are 18+ and an Indian citizen.</p>
+                        <div class="action-buttons">
+                            <button class="btn btn-primary" onclick="app.checkEligibility()">Check Eligibility</button>
+                            <button class="btn btn-secondary" onclick="app.markStepComplete()">Mark Completed</button>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline" id="journey-timeline">
+                        <!-- Timeline items injected by JS -->
+                    </div>
+                </div>
+
+                <div class="side-column">
+                    <div class="glass-card info-card">
+                        <h3><i data-lucide="calendar"></i> Upcoming Deadlines</h3>
+                        <ul class="deadline-list">
+                            <li>
+                                <span class="date">Oct 15, 2026</span>
+                                <span class="event">Voter List Revision</span>
+                            </li>
+                            <li>
+                                <span class="date">Nov 02, 2026</span>
+                                <span class="event">Form 6 Deadline</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="glass-card tool-card" onclick="app.navigate('flashcards')">
+                        <h3><i data-lucide="layers"></i> Learn with Flashcards</h3>
+                        <p>Master election concepts in 5 minutes.</p>
+                        <span class="link-text">Start Learning -></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- History Section -->
+        <section id="history" class="view-section">
+            <div class="section-header">
+                <h2>Indian Election History & Milestones</h2>
+                <p>A look back at the democratic journey of the world's largest democracy.</p>
+            </div>
+            
+            <div class="app-container" style="max-width: 800px;">
+                <!-- Link to Ancient Vaishali -->
+                <div class="glass-card" style="margin-bottom: 2rem; border-left: 6px solid var(--primary);">
+                    <h3 style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;"><i data-lucide="landmark"></i> The Roots of Democracy: Ancient Vaishali</h3>
+                    <p style="color: var(--text-main); font-size: 1.1rem; line-height: 1.6;">Long before modern constitutions were written, the seeds of democracy were sown in <strong>Vaishali</strong> (in present-day Bihar, India) around 600 BCE. The Licchavi Republic of Vaishali is widely considered one of the world's first republics (<em>Ganatantra</em>). They had a sophisticated system of governance where representatives were elected by an assembly of citizens, proving that democratic ideals are deeply rooted in ancient Indian civilization.</p>
+                </div>
+
+                <div class="timeline">
+                    <div class="timeline-item active">
+                        <h4>1950 - Election Commission Established</h4>
+                        <p>The Election Commission of India (ECI) was established on 25th January 1950, a day now celebrated as National Voters' Day.</p>
+                    </div>
+                    <div class="timeline-item active">
+                        <h4>1951-1952 - First General Elections</h4>
+                        <p>India held its first massive democratic elections over 4 months, with universal adult suffrage, defying global skeptics.</p>
+                    </div>
+                    <div class="timeline-item active">
+                        <h4>1982 - Introduction of EVMs</h4>
+                        <p>Electronic Voting Machines (EVMs) were first used on an experimental basis in the Parur Assembly Constituency in Kerala.</p>
+                    </div>
+                    <div class="timeline-item active">
+                        <h4>1989 - Voting Age Lowered</h4>
+                        <p>The 61st Constitutional Amendment lowered the voting age from 21 years to 18 years, enfranchising millions of youth.</p>
+                    </div>
+                    <div class="timeline-item active">
+                        <h4>1993 - Introduction of EPIC</h4>
+                        <p>Electors Photo Identity Cards (EPIC), commonly known as Voter ID cards, were introduced to prevent electoral fraud.</p>
+                    </div>
+                    <div class="timeline-item active">
+                        <h4>2013 - Implementation of NOTA</h4>
+                        <p>The Supreme Court directed the ECI to introduce the "None of the Above" (NOTA) option on EVMs.</p>
+                    </div>
+                    <div class="timeline-item completed">
+                        <h4>2014 - VVPAT Introduction</h4>
+                        <p>Voter Verifiable Paper Audit Trail (VVPAT) was introduced in general elections to ensure transparency and verify votes cast.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="view-section">
+            <div class="section-header">
+                <h2>Frequently Asked Questions</h2>
+                <p>Common queries about the Indian electoral process.</p>
+            </div>
+            
+            <div class="app-container" style="max-width: 800px;">
+                <div class="glass-card" style="margin-bottom: 1rem;">
+                    <h3>Who is eligible to vote in India?</h3>
+                    <p style="margin-top: 0.5rem; color: var(--text-muted);">Any Indian citizen who is 18 years of age or older on the qualifying date (typically Jan 1st of the year) and is a resident of the polling area, provided they are not otherwise disqualified.</p>
+                </div>
+                <div class="glass-card" style="margin-bottom: 1rem;">
+                    <h3>Can Non-Resident Indians (NRIs) vote?</h3>
+                    <p style="margin-top: 0.5rem; color: var(--text-muted);">Yes, NRIs holding a valid Indian passport who have not acquired citizenship of another country can vote. They must fill Form 6A to register and must cast their vote in person at their respective constituency.</p>
+                </div>
+                <div class="glass-card" style="margin-bottom: 1rem;">
+                    <h3>What happens if I lose my Voter ID (EPIC)?</h3>
+                    <p style="margin-top: 0.5rem; color: var(--text-muted);">You can still vote if your name is on the electoral roll by showing an alternative ECI-approved photo ID (like Aadhaar, PAN, Passport). To get a replacement EPIC, you can fill Form 8 for a duplicate card.</p>
+                </div>
+                <div class="glass-card" style="margin-bottom: 1rem;">
+                    <h3>Is it mandatory to vote in India?</h3>
+                    <p style="margin-top: 0.5rem; color: var(--text-muted);">No, voting is a democratic right, but it is not legally compulsory in India.</p>
+                </div>
+                <div class="glass-card" style="margin-bottom: 1rem;">
+                    <h3>How are disputes regarding elections resolved?</h3>
+                    <p style="margin-top: 0.5rem; color: var(--text-muted);">Election disputes are strictly handled through an "Election Petition" filed before the respective State High Court. The Election Commission does not have the power to adjudicate post-election disputes.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Flashcards Section -->
+        <section id="flashcards" class="view-section">
+            <div class="section-header">
+                <h2>Myth vs Fact & Election Concepts</h2>
+                <p>Tap a card to reveal the truth.</p>
+            </div>
+            
+            <div class="flashcard-container" id="flashcard-container">
+                <div class="flashcard">
+                    <div class="flashcard-inner" onclick="this.parentElement.classList.toggle('flipped')">
+                        <div class="flashcard-front">
+                            <span class="badge myth">Myth</span>
+                            <h3>You can vote online in Indian Elections.</h3>
+                            <div class="flip-hint"><i data-lucide="rotate-cw"></i> Tap to flip</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <span class="badge fact">Fact</span>
+                            <h3>No, you cannot.</h3>
+                            <p>Currently, the Election Commission of India only allows in-person voting via EVMs, or postal ballots for specific categories (like armed forces and election duty staff).</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Additional cards injected by JS -->
+            </div>
+            <div class="flashcard-controls">
+                <button class="btn btn-secondary" onclick="app.prevCard()"><i data-lucide="arrow-left"></i> Previous</button>
+                <span id="card-counter">1 / 5</span>
+                <button class="btn btn-primary" onclick="app.nextCard()">Next <i data-lucide="arrow-right"></i></button>
+            </div>
+        </section>
+
+        <!-- AI Assistant Section -->
+        <section id="assistant" class="view-section">
+            <div class="chat-container">
+                <div class="chat-header">
+                    <i data-lucide="bot"></i>
+                    <div>
+                        <h3>Vaishali AI</h3>
+                        <p>Ask anything about Indian Elections</p>
+                    </div>
+                </div>
+                
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message bot">
+                        <div class="avatar"><i data-lucide="bot"></i></div>
+                        <div class="message-content">
+                            <p>Namaste! I am your Indian Election Guide. How can I help you today?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-replies" id="quick-replies">
+                    <button class="chip" onclick="app.sendChatMessage('How do I apply for a Voter ID?')">Apply for Voter ID</button>
+                    <button class="chip" onclick="app.sendChatMessage('My name is missing from the list.')">Name missing from list</button>
+                    <button class="chip" onclick="app.sendChatMessage('What is Form 8 used for?')">What is Form 8?</button>
+                </div>
+
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input" placeholder="Type your question..." onkeypress="app.handleChatInput(event)">
+                    <button class="btn-icon" onclick="app.sendChatMessage()"><i data-lucide="send"></i></button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Eligibility Modal -->
+    <div id="eligibility-modal" class="modal-overlay">
+        <div class="modal-content glass-card">
+            <button class="close-modal" onclick="app.closeModal()"><i data-lucide="x"></i></button>
+            <h2>Eligibility Checker</h2>
+            <div class="form-group">
+                <label>Are you an Indian Citizen?</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="citizen" value="yes"> Yes</label>
+                    <label><input type="radio" name="citizen" value="no"> No</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>What is your age?</label>
+                <input type="number" id="age-input" placeholder="e.g. 18" min="1" max="120">
+            </div>
+            <div class="form-group">
+                <label>Are you an ordinary resident of the polling area?</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="resident" value="yes"> Yes</label>
+                    <label><input type="radio" name="resident" value="no"> No</label>
+                </div>
+            </div>
+            <button class="btn btn-primary full-width" onclick="app.runEligibilityCheck()">Check Now</button>
+            <div id="eligibility-result" class="result-box hidden"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

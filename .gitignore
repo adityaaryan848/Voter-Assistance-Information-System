@@ -1,0 +1,8 @@
+# Ignore Google Cloud SDK and Python installer artifacts
+google-cloud-sdk/
+gcloud.zip
+python.exe
+
+# Ignore OS files
+.DS_Store
+Thumbs.db

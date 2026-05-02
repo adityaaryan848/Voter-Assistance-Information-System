@@ -1,0 +1,15 @@
+# This file specifies files that are *not* uploaded to Google Cloud
+# using gcloud. It follows the same syntax as .gitignore.
+
+# Ignore Google Cloud SDK and Python installer artifacts
+google-cloud-sdk/
+gcloud.zip
+python.exe
+
+# Ignore Git
+.git/
+.gitignore
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
